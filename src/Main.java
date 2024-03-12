@@ -42,6 +42,7 @@ public class Main {
                 }
                 counter++;
             }
+            for
         }catch (IOException e) {
             e.printStackTrace();
         }
