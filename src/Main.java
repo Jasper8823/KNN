@@ -30,7 +30,7 @@ public class Main {
         double[][] values = new double[counter][l];
         String[] type = new String[counter];
         counter=0;
-        try (BufferedReader br = new BufferedReader(new FileReader("train.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fi))) {
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(",");
                 for (int i=0;i<row.length;i++){
@@ -44,16 +44,6 @@ public class Main {
             }
         }catch (IOException e) {
             e.printStackTrace();
-        }
-        for(int i=0;i<counter;i++){
-           for (int o=0;o<l+1;o++){
-               if(o==l){
-                   System.out.print(type[i]);
-               }else {
-                   System.out.print(values[i][o]+" ");
-               }
-           }
-            System.out.println();
         }
         l=0;
         while(l!=4){
@@ -81,10 +71,11 @@ public class Main {
                             String[] row = line.split(",");
                             String[] row1 = new String[row.length-1];
                             System.arraycopy(row,0,row1,0,row1.length);
+                            System.out.print(Arrays.toString(row1)+"   ");
                             double[][] nearest;
                             nearest=getNearest(values,row1,k);
                             res = getAnswer(nearest,type);
-                            System.out.println(all+" "+res);
+                            System.out.println("kNN answer: "+res+"  ,correct answer: "+row[row.length-1]);
                             if(res.equals(row[row.length-1])){
                                 cor++;
                             }
@@ -93,10 +84,11 @@ public class Main {
                         e.printStackTrace();
                     }
                     double resault = (double) cor /all;
-                    System.out.println(resault);
+                    System.out.println("Accuracy: "+(resault*100)+"%");
                     break;
                 case 2:
                     System.out.println("Insert data, use \',\' between values");
+                    line = in.nextLine();
                     line = in.nextLine();
                     String[] row = line.split(",");
                     while(row.length!=values[0].length){
