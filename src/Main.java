@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.Math.round;
 
@@ -114,27 +113,12 @@ public class Main {
         }
     }
     public static String getAnswer(double[][] nearest,String[] type){
-        int[] answ = new int[3];
+        Map<String,Integer> map = new HashMap<>();
         for(int i=0;i<nearest.length;i++){
-            if(type[(int)nearest[i][1]].equals("Iris-setosa")){
-                answ[0]++;
-            }else if(type[(int)nearest[i][1]].equals("Iris-versicolor")){
-                answ[1]++;
-            } else {
-                answ[2]++;
-            }
+            if(map.containsKey(type[(int)nearest[i][1]])) map.put(type[(int)nearest[i][1]],map.get(type[(int)nearest[i][1]])+1);
+            else map.put(type[(int)nearest[i][1]],1);
         }
-        if(answ[2]>answ[1]&&answ[2]>answ[0]){
-            return "Iris-virginica";
-        }else if(answ[1]>answ[2]&&answ[1]>answ[0]){
-            return "Iris-versicolor";
-        } else if(answ[0]>answ[2]&&answ[0]>answ[1]){
-            return "Iris-setosa";
-        }else if(answ[1]==answ[2]){
-            return "Iris-versicolor";
-        }else{
-            return "Iris-setosa";
-        }
+        return map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
     }
     public static double[][] getNearest(double[][] values, String[] ins,int k){
         double[][] nearest = new double[k][2];
